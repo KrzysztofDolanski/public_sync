@@ -1,4 +1,4 @@
-package com.krzysztof.twopublicsync.ui.task
+package com.krzysztof.twopublicsync.ui.result
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -8,12 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.krzysztof.twopublicsync.game.GameViewModel
 
 @Composable
-fun SyncGestureScreen(
+fun ResultScreen(
     navController: NavController,
-    gameViewModel: GameViewModel
+    gestureCorrect: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -24,18 +23,15 @@ fun SyncGestureScreen(
     ) {
 
         Text(
-            text = "Wykonaj gest i czekaj na zdjęcie od drugiego użytkownika.",
+            text = if (gestureCorrect) "Gest poprawny!" else "Gest niepoprawny!",
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
         Button(
-            onClick = {
-                gameViewModel.performerReady()
-                navController.navigate("capture_photo")
-            },
+            onClick = { navController.navigate("home") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Jestem gotowy")
+            Text("Powrót do menu")
         }
     }
 }
