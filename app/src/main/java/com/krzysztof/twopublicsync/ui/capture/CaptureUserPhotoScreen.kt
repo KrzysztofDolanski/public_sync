@@ -28,7 +28,6 @@ fun CaptureUserPhotoScreen(
         if (bitmap != null) {
             previewBitmap = bitmap
             onPhotoCaptured(bitmap)
-            scoreViewModel.addPoint()
         }
     }
 

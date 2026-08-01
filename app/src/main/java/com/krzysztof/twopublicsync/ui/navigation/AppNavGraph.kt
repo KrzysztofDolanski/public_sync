@@ -38,10 +38,6 @@ fun AppNavGraph(
                 onPhotoCaptured = { bitmap ->
                     gameViewModel.verifierCapturedPhoto(bitmap)
                     gameViewModel.analyzeGesture(bitmap)
-
-                    val correct = gameViewModel.state.value.gestureCorrect ?: false
-                    if (correct) scoreViewModel.addPoint()
-
                     navController.navigate("result")
                 },
                 scoreViewModel = scoreViewModel
@@ -50,6 +46,9 @@ fun AppNavGraph(
 
         composable("result") {
             val correct = gameViewModel.state.value.gestureCorrect ?: false
+            if (correct) {
+                scoreViewModel.addPoint()
+            }
             ResultScreen(navController, correct)
         }
     }

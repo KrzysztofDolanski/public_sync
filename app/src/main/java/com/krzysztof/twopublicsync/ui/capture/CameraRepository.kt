@@ -7,7 +7,7 @@ import java.io.FileOutputStream
 
 class CameraRepository {
 
-    fun savePhoto(bitmap: Bitmap) {
+    fun savePhoto(bitmap: Bitmap): File {
         val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "twopublicsync"
@@ -19,10 +19,19 @@ class CameraRepository {
         FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
         }
+
+        return file
     }
 
-    suspend fun uploadPhoto(bitmap: Bitmap) {
-        // TODO: implementacja API
-        // Retrofit multipart upload
+    suspend fun uploadPhoto(file: File): Boolean {
+        // TODO: implementacja API (Retrofit, multipart)
+        // Na razie zwracamy true jako placeholder
+        return true
+    }
+
+    suspend fun analyzeGesture(file: File): Boolean {
+        // TODO: wywołanie backendu / ML
+        // Na razie zwracamy true jako placeholder
+        return true
     }
 }

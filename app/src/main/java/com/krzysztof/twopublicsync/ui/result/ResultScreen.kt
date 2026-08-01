@@ -23,7 +23,11 @@ fun ResultScreen(
     ) {
 
         Text(
-            text = if (gestureCorrect) "Gest poprawny!" else "Gest niepoprawny!",
+            text = if (gestureCorrect) {
+                "Gest poprawny! Użytkownik wykonał zadanie prawidłowo."
+            } else {
+                "Gest niepoprawny. Spróbuj ponownie."
+            },
             modifier = Modifier.padding(bottom = 32.dp)
         )
 

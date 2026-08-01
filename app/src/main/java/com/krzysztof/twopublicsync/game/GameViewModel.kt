@@ -3,11 +3,14 @@ package com.krzysztof.twopublicsync.game
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.krzysztof.twopublicsync.ui.capture.CameraRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class GameViewModel : ViewModel() {
+class GameViewModel(
+    private val cameraRepository: CameraRepository = CameraRepository()
+) : ViewModel() {
 
     private val _state = MutableStateFlow(GameState())
     val state: StateFlow<GameState> = _state
@@ -36,8 +39,12 @@ class GameViewModel : ViewModel() {
 
     fun analyzeGesture(bitmap: Bitmap) {
         viewModelScope.launch {
-            // TODO: analiza gestu (backend / ML)
-            val correct = true // placeholder
+            val file = cameraRepository.savePhoto(bitmap)
+
+            // TODO: uploadPhoto(file) jeśli potrzebne
+            // val uploaded = cameraRepository.uploadPhoto(file)
+
+            val correct = cameraRepository.analyzeGesture(file)
 
             _state.value = _state.value.copy(
                 gestureCorrect = correct
