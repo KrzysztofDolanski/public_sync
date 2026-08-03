@@ -8,10 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.krzysztof.twopublicsync.game.GameViewModel
 import com.krzysztof.twopublicsync.score.ScoreViewModel
+import com.krzysztof.twopublicsync.user.UserViewModel
 import com.krzysztof.twopublicsync.ui.capture.CaptureUserPhotoScreen
 import com.krzysztof.twopublicsync.ui.home.HomeScreen
 import com.krzysztof.twopublicsync.ui.result.ResultScreen
 import com.krzysztof.twopublicsync.ui.task.SyncGestureScreen
+import com.krzysztof.twopublicsync.user.UserAvatarScreen
 
 @Composable
 fun AppNavGraph(
@@ -19,6 +21,7 @@ fun AppNavGraph(
 ) {
     val scoreViewModel: ScoreViewModel = viewModel()
     val gameViewModel: GameViewModel = viewModel()
+    val userViewModel: UserViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -26,7 +29,12 @@ fun AppNavGraph(
     ) {
 
         composable("home") {
-            HomeScreen(navController, scoreViewModel, gameViewModel)
+            HomeScreen(
+                navController = navController,
+                scoreViewModel = scoreViewModel,
+                gameViewModel = gameViewModel,
+                userViewModel = userViewModel
+            )
         }
 
         composable("task_sync") {
@@ -46,10 +54,12 @@ fun AppNavGraph(
 
         composable("result") {
             val correct = gameViewModel.state.value.gestureCorrect ?: false
-            if (correct) {
-                scoreViewModel.addPoint()
-            }
+            if (correct) scoreViewModel.addPoint()
             ResultScreen(navController, correct)
+        }
+
+        composable("user_avatar") {
+            UserAvatarScreen(navController, userViewModel)
         }
     }
 }
